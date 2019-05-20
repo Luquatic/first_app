@@ -7,11 +7,11 @@ class ProductControl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    return FloatingActionButton(
       onPressed: () {
         addProduct({'title': 'Chocolate', 'image': 'assets/food.jpg'});
       },
-      child: Text('Add Product'),
+      child: Icon(Icons.add),
     );
   }
 }
