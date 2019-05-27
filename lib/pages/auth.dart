@@ -18,58 +18,65 @@ class _AuthPageState extends State<AuthPage> {
       appBar: AppBar(
         title: Text('Login'),
       ),
-      body: Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.80,
-          child: ListView(
-            shrinkWrap: true, 
-            children: <Widget>[
-            TextField(
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Username',
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
+            image: AssetImage('assets/images/background.jpg'),
+          ),
+        ),
+        child: Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.80,
+            child: ListView(shrinkWrap: true, children: <Widget>[
+              TextField(
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Username',
+                ),
+                onChanged: (String value) {
+                  setState(() {
+                    _usernameValue = value;
+                  });
+                },
               ),
-              onChanged: (String value) {
-                setState(() {
-                  _usernameValue = value;
-                });
-              },
-            ),
-            SizedBox(height: 10.0),
-            TextField(
-              textAlign: TextAlign.center,
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Password',
+              SizedBox(height: 10.0),
+              TextField(
+                textAlign: TextAlign.center,
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Password',
+                ),
+                onChanged: (String value) {
+                  setState(() {
+                    _passwordValue = value;
+                  });
+                },
               ),
-              onChanged: (String value) {
-                setState(() {
-                  _passwordValue = value;
-                });
-              },
-            ),
-            SwitchListTile(
-              value: _acceptTerms,
-              onChanged: (bool value) {
-                setState(() {
-                 _acceptTerms = value; 
-                });
-              },
-              title: Text('Accept Terms'),
-            ),
-            RaisedButton(
-              color: Theme.of(context).primaryColor,
-              textColor: Colors.white,
-              child: Text('LOGIN'),
-              onPressed: () {
-                print(_usernameValue);
-                print(_passwordValue);
-                Navigator.pushReplacementNamed(context, '/products');
-              },
-            ),
-          ]),
+              SwitchListTile(
+                value: _acceptTerms,
+                onChanged: (bool value) {
+                  setState(() {
+                    _acceptTerms = value;
+                  });
+                },
+                title: Text('Accept Terms'),
+              ),
+              RaisedButton(
+                color: Theme.of(context).primaryColor,
+                textColor: Colors.white,
+                child: Text('LOGIN'),
+                onPressed: () {
+                  print(_usernameValue);
+                  print(_passwordValue);
+                  Navigator.pushReplacementNamed(context, '/products');
+                },
+              ),
+            ]),
+          ),
         ),
       ),
     );
