@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+import '../widgets/products/product_title.dart';
+
 class ProductPage extends StatelessWidget {
   final String title;
   final String imageUrl;
@@ -8,7 +10,7 @@ class ProductPage extends StatelessWidget {
   final String description;
 
   ProductPage(this.title, this.imageUrl, this.price, this.description);
-  
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -28,33 +30,14 @@ class ProductPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 26.0,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Oswald',
-                    ),
-                  ),
-                  SizedBox(
-                    width: 8.0,
-                  ),
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.5),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).accentColor,
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: Text(
-                      '€ ' + price.toString(),
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )
+                  ProductTitle(title),
+                  SizedBox(width: 8.0),
                 ],
               ),
             ),
-            Text('Union Square, San Francisco'),
+            Text('Union Square, San Francisco | € ' + price.toString(),
+              style: TextStyle(color: Colors.grey),
+            ),
             SizedBox(
               height: 10.0,
             ),
