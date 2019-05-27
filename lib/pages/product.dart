@@ -5,34 +5,10 @@ class ProductPage extends StatelessWidget {
   final String title;
   final String imageUrl;
   final double price;
+  final String description;
 
-  ProductPage(this.title, this.imageUrl, this.price);
-
-  _showWarningDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Are you sure?'),
-            content: Text('This cannot be undone'),
-            actions: <Widget>[
-              FlatButton(
-                  child: Text('DISCARD'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-              FlatButton(
-                child: Text('CONFIRM'),
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context, true);
-                },
-              ),
-            ],
-          );
-        });
-  }
-
+  ProductPage(this.title, this.imageUrl, this.price, this.description);
+  
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -45,9 +21,9 @@ class ProductPage extends StatelessWidget {
           title: Text(title),
         ),
         body: Column(
-        children: <Widget>[
-          Image.asset(title),
-          Container(
+          children: <Widget>[
+            Image.asset(imageUrl),
+            Container(
               padding: EdgeInsets.only(top: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -76,11 +52,39 @@ class ProductPage extends StatelessWidget {
                     ),
                   )
                 ],
-              )),
-          Text('Union Square, San Francisco'),
-          Text('Description'),
-        ],
-      ),
+              ),
+            ),
+            Text('Union Square, San Francisco'),
+            SizedBox(
+              height: 10.0,
+            ),
+            Column(
+              children: <Widget>[
+                SizedBox(
+                  width: double.infinity,
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      'Description:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Container(
+                    padding: EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      description,
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
