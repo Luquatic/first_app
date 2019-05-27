@@ -22,18 +22,20 @@ class _AuthPageState extends State<AuthPage> {
         decoration: BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
+            colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.3), BlendMode.dstATop),
             image: AssetImage('assets/images/background.jpg'),
           ),
         ),
         child: Center(
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.80,
-            child: ListView(shrinkWrap: true, children: <Widget>[
+          child: SingleChildScrollView(
+            child: Column(children: <Widget>[
               TextField(
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.white,
                   hintText: 'Username',
                 ),
                 onChanged: (String value) {
@@ -48,6 +50,8 @@ class _AuthPageState extends State<AuthPage> {
                 obscureText: true,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.white,
                   hintText: 'Password',
                 ),
                 onChanged: (String value) {
