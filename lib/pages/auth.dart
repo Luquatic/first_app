@@ -12,6 +12,75 @@ class _AuthPageState extends State<AuthPage> {
   String _passwordValue;
   bool _acceptTerms = false;
 
+  DecorationImage _buildBackgroundImage() {
+    return DecorationImage(
+      fit: BoxFit.cover,
+      colorFilter:
+          ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
+      image: AssetImage('assets/images/background.jpg'),
+    );
+  }
+
+  Widget _buildUsernameTextField() {
+    return TextField(
+      textAlign: TextAlign.center,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        filled: true,
+        fillColor: Colors.white,
+        hintText: 'Username',
+      ),
+      onChanged: (String value) {
+        setState(() {
+          _usernameValue = value;
+        });
+      },
+    );
+  }
+
+  Widget _buildPasswordTextField() {
+    return TextField(
+      textAlign: TextAlign.center,
+      obscureText: true,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        filled: true,
+        fillColor: Colors.white,
+        hintText: 'Password',
+      ),
+      onChanged: (String value) {
+        setState(() {
+          _passwordValue = value;
+        });
+      },
+    );
+  }
+
+  Widget _buildAcceptSwitch() {
+    return SwitchListTile(
+      value: _acceptTerms,
+      onChanged: (bool value) {
+        setState(() {
+          _acceptTerms = value;
+        });
+      },
+      title: Text('Accept Terms'),
+    );
+  }
+
+  Widget _buildLoginRaisedButton() {
+    return RaisedButton(
+      color: Theme.of(context).primaryColor,
+      textColor: Colors.white,
+      child: Text('LOGIN'),
+      onPressed: () {
+        print(_usernameValue);
+        print(_passwordValue);
+        Navigator.pushReplacementNamed(context, '/products');
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,66 +88,15 @@ class _AuthPageState extends State<AuthPage> {
         title: Text('Login'),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.3), BlendMode.dstATop),
-            image: AssetImage('assets/images/background.jpg'),
-          ),
-        ),
+        decoration: BoxDecoration(image: _buildBackgroundImage()),
         child: Center(
           child: SingleChildScrollView(
             child: Column(children: <Widget>[
-              TextField(
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: 'Username',
-                ),
-                onChanged: (String value) {
-                  setState(() {
-                    _usernameValue = value;
-                  });
-                },
-              ),
+              _buildUsernameTextField(),
               SizedBox(height: 10.0),
-              TextField(
-                textAlign: TextAlign.center,
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: 'Password',
-                ),
-                onChanged: (String value) {
-                  setState(() {
-                    _passwordValue = value;
-                  });
-                },
-              ),
-              SwitchListTile(
-                value: _acceptTerms,
-                onChanged: (bool value) {
-                  setState(() {
-                    _acceptTerms = value;
-                  });
-                },
-                title: Text('Accept Terms'),
-              ),
-              RaisedButton(
-                color: Theme.of(context).primaryColor,
-                textColor: Colors.white,
-                child: Text('LOGIN'),
-                onPressed: () {
-                  print(_usernameValue);
-                  print(_passwordValue);
-                  Navigator.pushReplacementNamed(context, '/products');
-                },
-              ),
+              _buildPasswordTextField(),
+              _buildAcceptSwitch(),
+              _buildLoginRaisedButton(),
             ]),
           ),
         ),
