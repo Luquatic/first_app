@@ -15,11 +15,17 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   String _titleValue;
   String _descriptionValue;
   double _priceValue;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildTitleTextField() {
-    return TextField(
+    return TextFormField(
       decoration: InputDecoration(labelText: 'Title'),
-      onChanged: (String value) {
+      validator: (String value) {
+        if (value.length < 3) {
+          return 'Title is required';
+        }
+      },
+      onSaved: (String value) {
         setState(() {
           _titleValue = value;
         });
@@ -28,10 +34,10 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   }
 
   Widget _buildDescriptionTextField() {
-    return TextField(
+    return TextFormField(
       maxLines: 4,
       decoration: InputDecoration(labelText: 'Description'),
-      onChanged: (String value) {
+      onSaved: (String value) {
         setState(() {
           _descriptionValue = value;
         });
@@ -40,10 +46,17 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   }
 
   Widget _buildPriceTextField() {
-    return TextField(
+    return TextFormField(
       keyboardType: TextInputType.number,
       decoration: InputDecoration(labelText: 'Price'),
-      onChanged: (String value) {
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Price is required';
+        } else if (!RegExp(r'^(?:[1-9]\d*|0)?(?:\.\d+)?$').hasMatch(value)) {
+          return 'Price has to be a number';
+        }
+      },
+      onSaved: (String value) {
         setState(() {
           _priceValue = double.parse(value);
         });
@@ -51,20 +64,19 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     );
   }
 
-  Widget _buildRaisedButton() {
-    return RaisedButton(
-      child: Text('Save'),
-      onPressed: () {
-        final Map<String, dynamic> product = {
-          'title': _titleValue,
-          'description': _descriptionValue,
-          'price': _priceValue,
-          'image': 'assets/images/food.jpg'
-        };
-        widget.addProduct(product);
-        Navigator.pushReplacementNamed(context, '/products');
-      },
-    );
+  void _submitForm() {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    _formKey.currentState.save();
+    final Map<String, dynamic> product = {
+      'title': _titleValue,
+      'description': _descriptionValue,
+      'price': _priceValue,
+      'image': 'assets/images/food.jpg'
+    };
+    widget.addProduct(product);
+    Navigator.pushReplacementNamed(context, '/products');
   }
 
   @override
@@ -73,19 +85,30 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     final double targetWidth = deviceWidth > 550.0 ? 500.0 : deviceWidth * 0.90;
     final double targetPadding = deviceWidth - targetWidth;
 
-    return Container(
-      margin: EdgeInsets.all(15.0),
-      child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: targetPadding / 2),
-        children: <Widget>[
-          _buildTitleTextField(),
-          _buildDescriptionTextField(),
-          _buildPriceTextField(),
-          SizedBox(
-            height: 10.0,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Container(
+        margin: EdgeInsets.all(15.0),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: targetPadding / 2),
+            children: <Widget>[
+              _buildTitleTextField(),
+              _buildDescriptionTextField(),
+              _buildPriceTextField(),
+              SizedBox(
+                height: 10.0,
+              ),
+              RaisedButton(
+                child: Text('Save'),
+                onPressed: _submitForm,
+              )
+            ],
           ),
-          _buildRaisedButton(),
-        ],
+        ),
       ),
     );
   }

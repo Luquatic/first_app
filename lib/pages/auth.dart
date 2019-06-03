@@ -90,19 +90,24 @@ class _AuthPageState extends State<AuthPage> {
       appBar: AppBar(
         title: Text('Login'),
       ),
-      body: Container(
-        decoration: BoxDecoration(image: _buildBackgroundImage()),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Container(
-              width: targetWidth,
-              child: Column(children: <Widget>[
-                _buildUsernameTextField(),
-                SizedBox(height: 10.0),
-                _buildPasswordTextField(),
-                _buildAcceptSwitch(),
-                _buildLoginRaisedButton(),
-              ]),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Container(
+          decoration: BoxDecoration(image: _buildBackgroundImage()),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Container(
+                width: targetWidth,
+                child: Column(children: <Widget>[
+                  _buildUsernameTextField(),
+                  SizedBox(height: 10.0),
+                  _buildPasswordTextField(),
+                  _buildAcceptSwitch(),
+                  _buildLoginRaisedButton(),
+                ]),
+              ),
             ),
           ),
         ),
