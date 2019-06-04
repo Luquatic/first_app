@@ -25,6 +25,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
 
   Widget _buildTitleTextField() {
     return TextFormField(
+      textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(labelText: 'Title'),
       initialValue: widget.product == null ? '' : widget.product['title'],
       validator: (String value) {
@@ -40,6 +41,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
 
   Widget _buildDescriptionTextField() {
     return TextFormField(
+      textCapitalization: TextCapitalization.sentences,
       maxLines: 4,
       decoration: InputDecoration(labelText: 'Description'),
       initialValue: widget.product == null ? '' : widget.product['description'],
