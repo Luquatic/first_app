@@ -5,6 +5,7 @@ import './pages/auth.dart';
 import './pages/product.dart';
 import './pages/products.dart';
 import './pages/products_admin.dart';
+import './models/product.dart';
 
 void main() {
   // debugPaintSizeEnabled = true;
