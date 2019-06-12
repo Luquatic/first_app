@@ -1,17 +1,19 @@
 import 'dart:async';
+import 'package:first_app/scoped-models/products.dart';
 import 'package:flutter/material.dart';
+
+import 'package:scoped_model/scoped_model.dart';
+import '../models/product.dart';
+import '../scoped-models/products.dart';
 
 import '../widgets/products/product_title.dart';
 
 class ProductPage extends StatelessWidget {
-  final String title;
-  final String imageUrl;
-  final double price;
-  final String description;
+  final int productIndex;
 
-  ProductPage(this.title, this.imageUrl, this.price, this.description);
+  ProductPage(this.productIndex);
 
-  Widget _buildTitleContainer() {
+  Widget _buildTitleContainer(String title) {
     return Container(
       padding: EdgeInsets.only(top: 10.0),
       child: Row(
@@ -24,7 +26,7 @@ class ProductPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDescriptionColumn() {
+  Widget _buildDescriptionColumn(String description) {
     return Column(
       children: <Widget>[
         SizedBox(
@@ -54,30 +56,32 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        Navigator.pop(context, false);
-        return Future.value(false);
+    return WillPopScope(onWillPop: () {
+      Navigator.pop(context, false);
+      return Future.value(false);
+    }, child: ScopedModelDescendant<ProductsModel>(
+      builder: (BuildContext context, Widget child, ProductsModel model) {
+        final Product product = model.products[productIndex];
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(product.title),
+          ),
+          body: Column(
+            children: <Widget>[
+              Image.asset(product.image),
+              _buildTitleContainer(product.title),
+              Text(
+                'Union Square, San Francisco | € ' + product.price.toString(),
+                style: TextStyle(color: Colors.grey),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              _buildDescriptionColumn(product.description),
+            ],
+          ),
+        );
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: Column(
-          children: <Widget>[
-            Image.asset(imageUrl),
-            _buildTitleContainer(),
-            Text(
-              'Union Square, San Francisco | € ' + price.toString(),
-              style: TextStyle(color: Colors.grey),
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            _buildDescriptionColumn(),
-          ],
-        ),
-      ),
-    );
+    ));
   }
 }
