@@ -22,18 +22,32 @@ class ProductsModel extends Model {
   }
 
   void addProduct(Product product) {
-      _products.add(product);
-      _selectedProductIndex = null;
+    _products.add(product);
+    _selectedProductIndex = null;
   }
 
   void updateProduct(Product product) {
-      _products[_selectedProductIndex] = product;
-      _selectedProductIndex = null;
+    _products[_selectedProductIndex] = product;
+    _selectedProductIndex = null;
   }
 
   void deleteProduct() {
-      _products.removeAt(_selectedProductIndex);
-      _selectedProductIndex = null;
+    _products.removeAt(_selectedProductIndex);
+    _selectedProductIndex = null;
+  }
+
+  void toggleProductFavoriteStatus() {
+    final bool isCurrentlyFavorite = selectedProduct.isFavorite;
+    final bool newFavoriteStatus = !isCurrentlyFavorite;
+    final Product updatedProduct = Product(
+      title: selectedProduct.title,
+      description: selectedProduct.description,
+      price: selectedProduct.price,
+      image: selectedProduct.image,
+      isFavorite: newFavoriteStatus
+    );
+    _products[_selectedProductIndex] = updatedProduct;
+    _selectedProductIndex = null;
   }
 
   void selectProduct(int index) {
