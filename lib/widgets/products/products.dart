@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import './product_card.dart';
+import '../../models/product.dart';
 import '../../scoped-models/products.dart';
 
 class Products extends StatelessWidget {
