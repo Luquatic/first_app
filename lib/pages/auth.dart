@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:scoped_model/scoped_model.dart';
+import '../scoped-models/main.dart';
+
 class AuthPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -8,9 +11,12 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  String _usernameValue;
-  String _passwordValue;
-  bool _acceptTerms = false;
+  final Map<String, dynamic> _formData = {
+    'username': null,
+    'password': null,
+    'acceptTerms': false
+  };
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   DecorationImage _buildBackgroundImage() {
     return DecorationImage(
@@ -22,7 +28,7 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Widget _buildUsernameTextField() {
-    return TextField(
+    return TextFormField(
       textAlign: TextAlign.center,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
@@ -30,55 +36,46 @@ class _AuthPageState extends State<AuthPage> {
         fillColor: Colors.white,
         hintText: 'Username',
       ),
-      onChanged: (String value) {
-        setState(() {
-          _usernameValue = value;
-        });
+      onSaved: (String value) {
+        _formData['username'] = value;
       },
     );
   }
 
   Widget _buildPasswordTextField() {
-    return TextField(
-      textAlign: TextAlign.center,
-      obscureText: true,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        filled: true,
-        fillColor: Colors.white,
-        hintText: 'Password',
-      ),
-      onChanged: (String value) {
-        setState(() {
-          _passwordValue = value;
+    return TextFormField(
+        textAlign: TextAlign.center,
+        obscureText: true,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          filled: true,
+          fillColor: Colors.white,
+          hintText: 'Password',
+        ),
+        onSaved: (String value) {
+          _formData['password'] = value;
         });
-      },
-    );
   }
 
   Widget _buildAcceptSwitch() {
     return SwitchListTile(
-      value: _acceptTerms,
+      value: _formData['acceptTerms'],
       onChanged: (bool value) {
         setState(() {
-          _acceptTerms = value;
+          _formData['acceptTerms'] = value;
         });
       },
       title: Text('Accept Terms'),
     );
   }
 
-  Widget _buildLoginRaisedButton() {
-    return RaisedButton(
-      color: Theme.of(context).primaryColor,
-      textColor: Colors.white,
-      child: Text('LOGIN'),
-      onPressed: () {
-        print(_usernameValue);
-        print(_passwordValue);
-        Navigator.pushReplacementNamed(context, '/products');
-      },
-    );
+  void _submitForm(Function login) {
+    if (!_formKey.currentState.validate() || !_formData['acceptTerms']) {
+      return;
+    }
+    _formKey.currentState.save();
+    login(_formData['username'], _formData['password']);
+    Navigator.pushReplacementNamed(context, '/products');
   }
 
   @override
@@ -105,7 +102,16 @@ class _AuthPageState extends State<AuthPage> {
                   SizedBox(height: 10.0),
                   _buildPasswordTextField(),
                   _buildAcceptSwitch(),
-                  _buildLoginRaisedButton(),
+                  ScopedModelDescendant<MainModel>(
+                    builder:
+                        (BuildContext context, Widget child, MainModel model) {
+                      return RaisedButton(
+                        textColor: Colors.white,
+                        child: Text('LOGIN'),
+                        onPressed: () => _submitForm(model.login),
+                      );
+                    },
+                  )
                 ]),
               ),
             ),
