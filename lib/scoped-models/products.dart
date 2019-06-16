@@ -44,10 +44,11 @@ class ProductsModel extends Model {
       description: selectedProduct.description,
       price: selectedProduct.price,
       image: selectedProduct.image,
-      isFavorite: newFavoriteStatus
+      isFavorite: newFavoriteStatus,
     );
     _products[_selectedProductIndex] = updatedProduct;
     _selectedProductIndex = null;
+    notifyListeners();
   }
 
   void selectProduct(int index) {

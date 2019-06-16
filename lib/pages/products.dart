@@ -16,7 +16,7 @@ class ProductsPage extends StatelessWidget {
             leading: Icon(Icons.edit),
             title: Text('Manage Products'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/admin');
+              Navigator.popAndPushNamed(context, '/admin');
             },
           )
         ],
