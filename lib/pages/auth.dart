@@ -30,12 +30,18 @@ class _AuthPageState extends State<AuthPage> {
   Widget _buildUsernameTextField() {
     return TextFormField(
       textAlign: TextAlign.center,
+      textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         filled: true,
         fillColor: Colors.white,
         hintText: 'Username',
       ),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Please enter a username';
+        }
+      },
       onSaved: (String value) {
         _formData['username'] = value;
       },
@@ -52,6 +58,11 @@ class _AuthPageState extends State<AuthPage> {
           fillColor: Colors.white,
           hintText: 'Password',
         ),
+        validator: (String value) {
+        if (value.isEmpty) {
+          return 'Please enter a password';
+        }
+      },
         onSaved: (String value) {
           _formData['password'] = value;
         });
@@ -70,10 +81,10 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   void _submitForm(Function login) {
-    if (!_formKey.currentState.validate() || !_formData['acceptTerms']) {
-      return;
-    }
-    _formKey.currentState.save();
+    // if (!_formKey.currentState.validate() || !_formData['acceptTerms']) {
+    //   return;
+    // }
+    // _formKey.currentState.save();
     login(_formData['username'], _formData['password']);
     Navigator.pushReplacementNamed(context, '/products');
   }
@@ -106,6 +117,7 @@ class _AuthPageState extends State<AuthPage> {
                     builder:
                         (BuildContext context, Widget child, MainModel model) {
                       return RaisedButton(
+                        color: Theme.of(context).primaryColor,
                         textColor: Colors.white,
                         child: Text('LOGIN'),
                         onPressed: () => _submitForm(model.login),

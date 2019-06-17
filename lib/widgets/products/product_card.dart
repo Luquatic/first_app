@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:scoped_model/scoped_model.dart';
-import '../../scoped-models/products.dart';
+import '../../scoped-models/main.dart';
 import '../../models/product.dart';
 
 import './product_title.dart';
@@ -39,8 +39,8 @@ class ProductCard extends StatelessWidget {
           onPressed: () => Navigator.pushNamed<bool>(
               context, '/product/' + productIndex.toString()),
         ),
-        ScopedModelDescendant<ProductsModel>(
-          builder: (BuildContext context, Widget widget, ProductsModel model) {
+        ScopedModelDescendant<MainModel>(
+          builder: (BuildContext context, Widget widget, MainModel model) {
             return IconButton(
               icon: Icon(model.products[productIndex].isFavorite
                   ? Icons.favorite
@@ -65,6 +65,7 @@ class ProductCard extends StatelessWidget {
           Image.asset(product.image),
           _buildTitleContainer(),
           Text('Union Square, San Francisco'),
+          Text(product.userUsername),
           _buildButtonBar(context),
         ],
       ),

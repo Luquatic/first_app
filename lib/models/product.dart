@@ -6,11 +6,15 @@ class Product {
   final double price;
   final String image;
   final bool isFavorite;
+  final String userUsername;
+  final String userId;
 
   Product(
       {@required this.title,
       @required this.description,
       @required this.price,
       @required this.image,
+      @required this.userUsername,
+      @required this.userId,
       this.isFavorite = false});
 }
