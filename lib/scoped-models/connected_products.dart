@@ -87,7 +87,9 @@ mixin ProductsModel on ConnectedProductsModel {
 
   void selectProduct(int index) {
     _currSelectedProductIndex = index;
-    notifyListeners();
+    if (index != null) {
+      notifyListeners();
+    }
   }
 
   void toggleDisplayMode() {
@@ -102,6 +104,7 @@ mixin ProductsModel on ConnectedProductsModel {
 
 mixin UserModel on ConnectedProductsModel {
   void login(String username, String password) {
-    _authenticatedUser = User(id: 'id1', username: username, password: password);
+    _authenticatedUser =
+        User(id: 'id1', username: username, password: password);
   }
 }
